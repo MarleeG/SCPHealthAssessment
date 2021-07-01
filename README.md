@@ -1,4 +1,4 @@
-# Application Name - EXAMPLE
+# SCPHealthAssessment
 
 This app checks if the string inputted is a palindrome. 
 
@@ -14,4 +14,4 @@ Palindrome - a word, phrase, or sequence that reads the same backward as forward
 * [Bootstrap](https://getbootstrap.com/)
 
 ## Deployed App
-* [PalindromeChecker-App](https://palindromechecker-mg.herokuapp.com) - App
+* [SCPHealthAssessment](https://scphealthassessment-mg.herokuapp.com) - App
