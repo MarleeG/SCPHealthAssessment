@@ -43,9 +43,12 @@ const Input = () => {
     log(numbers);
   }, [numbers, inputValue]);
 
+  const Form = () => {
+    return <Form>hello</Form>;
+  };
+
   return (
     <div>
-      {" "}
       <strong>
         <label style={{ display: "block" }}>Enter a valid number</label>
       </strong>
@@ -64,6 +67,14 @@ const Input = () => {
       >
         Submit
       </Button>
+
+      {numbers.length > 0 && (
+        <div className="numbers-list my-5">
+          {numbers.map((num, idx) => {
+            return <span className="mx-1 my-1" key={idx}>{num}</span>;
+          })}
+        </div>
+      )}
     </div>
   );
 };
