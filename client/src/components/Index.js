@@ -1,13 +1,18 @@
-import React from "react";
+const statisticMethods = {
+  mean: (numbers) => {
+    console.log("MEAN");
+    console.log(numbers);
+  },
+  mode: (numbers) => {
+    console.log("MODE");
 
-const Index = (props) => {
-  const { numbers } = props;
+    console.log(numbers);
+  },
+  median: (numbers) => {
+    console.log("MEDIAN");
 
-  const mean = () => {};
-  const median = () => {};
-  const mode = () => {};
-
-  return <div></div>;
+    console.log(numbers);
+  },
 };
 
-export default Index;
+module.exports = statisticMethods;

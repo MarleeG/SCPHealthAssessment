@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
+import { mean, median, mode } from "./Index.js";
 
 import "./Input.css";
 const { log } = console;
@@ -39,13 +40,19 @@ const Input = () => {
     }
   };
 
+  const getMedianMeanMode = () => {
+    mean(numbers);
+    mode(numbers);
+    median(numbers);
+  };
+
   useEffect(() => {
     log(numbers);
   }, [numbers, inputValue]);
 
-  const Form = () => {
-    return <Form>hello</Form>;
-  };
+  // const Form = () => {
+  //   return <Form>hello</Form>;
+  // };
 
   return (
     <div>
@@ -68,10 +75,26 @@ const Input = () => {
         Submit
       </Button>
 
+      <Button
+        variant="primary"
+        size="md"
+        onClick={() => {
+          getMedianMeanMode();
+        }}
+        disabled={!(numbers.length > 0)}
+      >
+        {" "}
+        Get Median, Mean, and Mode
+      </Button>
+
       {numbers.length > 0 && (
         <div className="numbers-list my-5">
           {numbers.map((num, idx) => {
-            return <span className="mx-1 my-1" key={idx}>{num}</span>;
+            return (
+              <span className="mx-1 my-1" key={idx}>
+                {num}
+              </span>
+            );
           })}
         </div>
       )}
