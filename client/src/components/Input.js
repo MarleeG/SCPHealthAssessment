@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Button } from "react-bootstrap";
 
 import "./Input.css";
 const { log } = console;
@@ -11,12 +12,12 @@ const Input = () => {
     const updatedValue = parseFloat(value);
 
     if (!isNaN(updatedValue)) {
-      log(updatedValue);
+      // log(updatedValue);
       log("is a number");
 
       setIsInputANumber(true);
     } else {
-      log(updatedValue);
+      // log(updatedValue);
       log("is not a number");
 
       setIsInputANumber(false);
@@ -30,6 +31,18 @@ const Input = () => {
     checkIfInputIsANumber(value);
   };
 
+  const handleSubmit = (e) => {
+    log("submit clicked");
+
+    if (isInputANumber) {
+      setNumbers([parseFloat(inputValue), ...numbers]);
+    }
+  };
+
+  useEffect(() => {
+    log(numbers);
+  }, [numbers, inputValue]);
+
   return (
     <div>
       {" "}
@@ -42,6 +55,15 @@ const Input = () => {
         placeholder="Enter a number"
         name="numbers_input"
       />
+      <Button
+        className="mx-2"
+        variant="dark"
+        type="submit"
+        disabled={!isInputANumber}
+        onClick={(e) => handleSubmit(e)}
+      >
+        Submit
+      </Button>
     </div>
   );
 };
