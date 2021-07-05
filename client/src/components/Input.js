@@ -14,12 +14,12 @@ const Input = () => {
 
     if (!isNaN(updatedValue)) {
       // log(updatedValue);
-      log("is a number");
+      // log("is a number");
 
       setIsInputANumber(true);
     } else {
       // log(updatedValue);
-      log("is not a number");
+      // log("is not a number");
 
       setIsInputANumber(false);
     }
@@ -33,7 +33,7 @@ const Input = () => {
   };
 
   const handleSubmit = (e) => {
-    log("submit clicked");
+    // log("submit clicked");
 
     if (isInputANumber) {
       setNumbers([parseFloat(inputValue), ...numbers]);
@@ -41,13 +41,15 @@ const Input = () => {
   };
 
   const getMedianMeanMode = () => {
-    mean(numbers);
-    mode(numbers);
-    median(numbers);
+    log(`MEAN: ${mean(numbers)}`);
+    log('MODE:', mode(numbers));
+    log('MEDIAN:', median(numbers));
+    log(`-------------------------------------------------------`);
   };
 
+
   useEffect(() => {
-    log(numbers);
+    // log(numbers);
   }, [numbers, inputValue]);
 
   // const Form = () => {
