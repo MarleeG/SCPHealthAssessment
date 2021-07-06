@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
+import API from "../API";
 import { mean, median, mode } from "./Index.js";
 
 import "./Input.css";
@@ -42,14 +43,24 @@ const Input = () => {
 
   const getMedianMeanMode = () => {
     log(`MEAN: ${mean(numbers)}`);
-    log('MODE:', mode(numbers));
-    log('MEDIAN:', median(numbers));
+    log("MODE:", mode(numbers));
+    log("MEDIAN:", median(numbers));
     log(`-------------------------------------------------------`);
   };
 
+  const getAllLafayetteData = async () => {
+    let res;
+    try {
+      res = await API.getAllLafayetteData();
+    } catch (err) {
+      log(err);
+    }
+
+    console.log(res);
+  };
 
   useEffect(() => {
-    // log(numbers);
+    getAllLafayetteData()
   }, [numbers, inputValue]);
 
   // const Form = () => {

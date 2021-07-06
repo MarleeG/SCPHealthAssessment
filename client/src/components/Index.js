@@ -30,13 +30,13 @@ const statisticMethods = {
     // get key with the highest value
     let allModes = [];
     let highestValue = 0;
-    let highestValueKey = -Infinity;
+    // let highestValueKey = -Infinity;
 
     for (const key in obj) {
       const value = obj[key];
       if (value > highestValue) {
         highestValue = value;
-        highestValueKey = key;
+        // highestValueKey = key;
       }
     }
 
