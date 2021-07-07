@@ -9,7 +9,7 @@ const apiRoutes = require("./routes/api");
 app.use(express.json());
 app.use(cors())
 app.use(express.urlencoded({ extended: false }));
-app.use(apiRoutes);
+app.use("/api", apiRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));

@@ -2,7 +2,6 @@ import dotenv from "dotenv";
 import axios from "axios";
 dotenv.config();
 
-const { log } = console;
 const data = {
   // getAllLafayetteData: () => {
   //   const URL = `http://api.openweathermap.org/data/2.5/forecast?lat=30.2240897&lon=-92.01984270000003&cnt=25&units=imperial&appid=${process.env.REACT_APP_APP_ID}`;
@@ -16,13 +15,14 @@ const data = {
   //   return axios.get(URL);
   // },
 
+
   getAllLafayetteData: () => {
-    const allData = axios.get("http://localhost:5000")
+    const allData = axios.get("http://localhost:5000/api")
     return allData;
   },
 
   getDataByZipCode: (zip) => {
-    const dataByZip = axios.get(`http://localhost:5000/${zip}`);
+    const dataByZip = axios.get(`http://localhost:5000/api/${zip}`);
 
     return dataByZip
   },
