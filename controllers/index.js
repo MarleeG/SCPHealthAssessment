@@ -12,17 +12,12 @@ const API_METHODS = {
 
   getDataByZip: (req, res) => {
     const zip = req.params.zip
-    const isValidZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zip);
 
-    if(isValidZip){
-      const URL = `http://api.openweathermap.org/data/2.5/forecast?zip=${zip},us&cnt=25&units=imperial&appid=${APP_ID}`;
+    const URL = `http://api.openweathermap.org/data/2.5/forecast?zip=${zip},us&cnt=25&units=imperial&appid=${APP_ID}`;
 
-      fetch(URL)
-        .then((response) => response.json())
-        .then((data) => res.json(data));
-    }else{
-      res.json({"error": "Zip code is invalid. Please use a valid US zip code."})
-    }
+    fetch(URL)
+      .then((response) => response.json())
+      .then((data) => res.json(data));
   }
 };
 
