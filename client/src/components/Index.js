@@ -49,6 +49,10 @@ const statisticMethods = {
       }
     }
 
+    for (let i = 0; i < allModes.length; i++) {
+      allModes[i] = allModes[i] + "\u00b0F";
+    }
+
     return allModes;
   },
   median: (numbers) => {
@@ -79,6 +83,17 @@ const statisticMethods = {
     }
 
     return medianNum;
+  },
+
+  orderedTemperatures: (numbers) => {
+    const orderedArr = numbers.sort((a, b) => a - b);
+
+    for (let i = 0; i < orderedArr.length; i++) {
+      orderedArr[i] = orderedArr[i] + "\u00b0F";
+    }
+
+
+    return orderedArr;
   },
 };
 

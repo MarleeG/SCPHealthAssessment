@@ -1,21 +1,52 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import API from "../API";
-import { mean, median, mode } from "./Index.js";
+import { mean, median, mode, orderedTemperatures } from "./Index.js";
 
 import "./Input.css";
 const { log } = console;
+
+const dataComponent = (
+  title,
+  { mean, median, mode, orderedTemperatures, beginningDate, endingDate, city }
+) => {
+  const component = (
+    <Fragment>
+      <h4>{city}'s 3 day forecast</h4>
+      <strong>Dates: {`${beginningDate} - ${endingDate}`}</strong>
+      <p>
+        Mean: {mean}
+        {"\u00b0"}F
+      </p>
+      <p>
+        Median: {median}
+        {"\u00b0"}F
+      </p>{" "}
+      <p style={{ overflowWrap: "break-word" }}>
+        Mode: {mode !== 0 && mode.join(", ")}{" "}
+      </p>
+      <p style={{ overflowWrap: "break-word" }}>
+        All Temps: {orderedTemperatures !== 0 && orderedTemperatures.join(", ")}
+      </p>
+    </Fragment>
+  );
+  return component;
+};
+
 const Input = () => {
   const [numbers, setNumbers] = useState([]);
   const [isInputANumber, setIsInputANumber] = useState(false);
-  const [inputValue, setInputValue] = useState(0);
+  const [isValidZip, setIsValidZip] = useState(false)
+  const [inputValue, setInputValue] = useState("");
   const [showCalculatedDataCol, setShowCalculatedDataCol] = useState(false);
   const [stats, setStats] = useState({
-    mean: null,
-    median: null,
-    mode: null,
+    mean: 0,
+    median: 0,
+    mode: 0,
+    orderedTemperatures: 0,
     beginningDate: null,
     endingDate: null,
+    city: "",
   });
 
   const checkIfInputIsANumber = (value) => {
@@ -38,45 +69,40 @@ const Input = () => {
     const { value } = e.target;
     setInputValue(value);
 
-    checkIfInputIsANumber(value);
+    // checkIfInputIsANumber(value);
+
+    if(checkIfValidZipCode(value)){
+      // setIsInputANumber(true);
+      setIsValidZip(true)
+    }else{
+      // setIsInputANumber(false);
+      setIsValidZip(false)
+    }
+
+
+
   };
 
   const handleSubmit = (e) => {
-    // log("submit clicked");
+    // if (isInputANumber) {
+    //   setNumbers([parseFloat(inputValue), ...numbers]);
+    // }
 
-    if (isInputANumber) {
-      setNumbers([parseFloat(inputValue), ...numbers]);
-    }
-  };
+    // checkIfValidZipCode(inputValue);
 
-  const dataComponent = (title, beginningDate, endingDate) => {
-    const component = (
-      <Fragment>
-        <h4>{title}</h4>
-        <strong>Dates: {`${beginningDate} - ${endingDate}`}</strong>
-        <p>Mean: {stats.mean}</p> <p>Median: {stats.median}</p>{" "}
-        <p style={{overflowWrap: "break-word"}}>Mode: {stats.mode.join(", ")}{" "}</p>
-      </Fragment>
-    );
-    return component;
-  };
-
-  const getMedianMeanMode = () => {
-    log(`MEAN: ${mean(numbers)}`);
-    log("MODE:", mode(numbers));
-    log("MEDIAN:", median(numbers));
-    log(`-------------------------------------------------------`);
-  };
-
-  const getAllLafayetteData = async () => {
     setShowCalculatedDataCol(true);
-    let res;
-    try {
-      res = await API.getAllLafayetteData();
-    } catch (err) {
-      log(err);
-    }
+    getDataByZipCode(inputValue);
+  };
 
+  // const getMedianMeanMode = () => {
+  //   log(`MEAN: ${mean(numbers)}`);
+  //   log("MODE:", mode(numbers));
+  //   log("MEDIAN:", median(numbers));
+  //   log(`-------------------------------------------------------`);
+  // };
+
+  const setCalculatedData = (res) => {
+    setShowCalculatedDataCol(true);
     const data = res.data.list;
     const beginningDate = res.data.list[0].dt_txt;
     const endingDate = res.data.list[res.data.list.length - 1].dt_txt;
@@ -95,15 +121,74 @@ const Input = () => {
       mean: mean(temperatures),
       median: median(temperatures),
       mode: mode(temperatures),
+      orderedTemperatures: orderedTemperatures(temperatures),
+      city: res.data.city.name,
     });
 
-    // console.log(res.data.list);
-    log(temperatures);
+    setInputValue("");
+    setIsValidZip(false);
+
+  }
+
+  const getAllLafayetteData = async () => {
+    
+    let res;
+    try {
+      res = await API.getAllLafayetteData();
+    } catch (err) {
+      log(err);
+    }
+
+    setCalculatedData(res);
+
+    // const data = res.data.list;
+    // const beginningDate = res.data.list[0].dt_txt;
+    // const endingDate = res.data.list[res.data.list.length - 1].dt_txt;
+
+    // let temperatures = [];
+
+    // for (let i = 0; i < data.length; i++) {
+    //   const curretTemp = data[i].main.temp;
+    //   temperatures.push(curretTemp);
+    // }
+
+    // setStats({
+    //   ...stats,
+    //   beginningDate: beginningDate,
+    //   endingDate: endingDate,
+    //   mean: mean(temperatures),
+    //   median: median(temperatures),
+    //   mode: mode(temperatures),
+    //   orderedTemperatures: orderedTemperatures(temperatures),
+    //   city: res.data.city.name,
+    // });
+
   };
 
-  useEffect(() => {
-    // getAllLafayetteData();
-  }, [numbers, inputValue]);
+  const checkIfValidZipCode = (zip) => {
+    const isValidZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zip);
+    // console.log(isValidZip);
+    return isValidZip;
+  };
+
+  const getDataByZipCode = async (zip) => {
+    let res;
+    try {
+      res = await API.getDataByZipCode(zip);
+    } catch (err) {
+      throw err;
+    }
+
+    setCalculatedData(res);
+
+    // log(`city: ${res.data.city.name}`);
+    // log(res);
+
+
+
+  };
+
+  useEffect(() => {}, [numbers, inputValue, stats]);
 
   return (
     <div>
@@ -111,7 +196,7 @@ const Input = () => {
         <Row>
           <Col lg={12} className="my-4">
             <strong>
-              <label className="mx-2">Enter a valid zip code</label>
+              <label className="mx-2">Enter a valid 5-digit US zip code</label>
             </strong>
             <input
               onChange={handleChange}
@@ -124,7 +209,7 @@ const Input = () => {
               className="mx-2"
               variant="dark"
               type="submit"
-              disabled={!isInputANumber}
+              disabled={!isValidZip}
               onClick={(e) => handleSubmit(e)}
             >
               Submit
@@ -160,13 +245,7 @@ const Input = () => {
           </Col>
 
           {showCalculatedDataCol && (
-            <Col lg={6}>
-              {dataComponent(
-                "Lafayette 3 day forcast",
-                stats.beginningDate,
-                stats.endingDate
-              )}
-            </Col>
+            <Col lg={6}>{dataComponent("Lafayette 3 day forcast", stats)}</Col>
           )}
         </Row>
       </Container>
