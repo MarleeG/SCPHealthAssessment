@@ -1,28 +1,25 @@
-import dotenv from "dotenv";
 import axios from "axios";
-dotenv.config();
+// import dotenv from "dotenv";
+// dotenv.config();
+
+const production = "https://scphealthassessment-mg.herokuapp.com";
+const development = "http://localhost";
+
+const BASE_URL = process.env.NODE_ENV === 'production'? production: development;
+const PORT = process.env.NODE_ENV === 'production'? process.env.PORT : 5000;
 
 const data = {
-  // getAllLafayetteData: () => {
-  //   const URL = `http://api.openweathermap.org/data/2.5/forecast?lat=30.2240897&lon=-92.01984270000003&cnt=25&units=imperial&appid=${process.env.REACT_APP_APP_ID}`;
-  //   const allData = axios.get(URL);
-
-  //   return allData;
-  // },
-  // getDataByZipCode: (zip) => {
-  //   const URL = `http://api.openweathermap.org/data/2.5/forecast?zip=${zip},us&cnt=25&units=imperial&appid=${process.env.REACT_APP_APP_ID}`;
-
-  //   return axios.get(URL);
-  // },
-
-
   getAllLafayetteData: () => {
-    const allData = axios.get("http://localhost:5000/api")
+    const FULL_URL = `${BASE_URL}:${PORT}/api`;
+    const allData = axios.get(FULL_URL)
     return allData;
   },
 
   getDataByZipCode: (zip) => {
-    const dataByZip = axios.get(`http://localhost:5000/api/${zip}`);
+    // const dataByZip = axios.get(`http://localhost:5000/api/${zip}`);
+    const FULL_URL = `${BASE_URL}:${PORT}/api/${zip}`
+    const dataByZip = axios.get(FULL_URL);
+
 
     return dataByZip
   },

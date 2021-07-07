@@ -6,6 +6,8 @@ const PORT = process.env.PORT || 5000;
 require('dotenv').config();
 const apiRoutes = require("./routes/api");
 
+// console.log(process.env.BAS)
+
 app.use(express.json());
 app.use(cors())
 app.use(express.urlencoded({ extended: false }));

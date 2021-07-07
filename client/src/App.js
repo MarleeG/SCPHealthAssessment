@@ -7,7 +7,7 @@ const App = () => {
   const Header = (
     <Jumbotron fluid>
       <Container>
-        <h1>SCPHealth Assessment</h1>
+        <h1>Weather Statistics</h1>
       </Container>
     </Jumbotron>
   );

@@ -140,7 +140,6 @@ const Input = () => {
   };
 
   const getDataByZipCode = async (zip) => {
-    log(`zip: ${zip}`)
     let res;
     try {
       res = await API.getDataByZipCode(zip);
