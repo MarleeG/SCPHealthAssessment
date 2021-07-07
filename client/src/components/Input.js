@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useRef } from "react";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import API from "../API";
 import { mean, median, mode, orderedTemperatures } from "./Index.js";
@@ -34,9 +34,9 @@ const dataComponent = (
 };
 
 const Input = () => {
-  const [numbers, setNumbers] = useState([]);
-  const [isInputANumber, setIsInputANumber] = useState(false);
-  const [isValidZip, setIsValidZip] = useState(false)
+  // const [numbers, setNumbers] = useState([]);
+  // const [isInputANumber, setIsInputANumber] = useState(false);
+  const [isValidZip, setIsValidZip] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [showCalculatedDataCol, setShowCalculatedDataCol] = useState(false);
   const [stats, setStats] = useState({
@@ -49,21 +49,21 @@ const Input = () => {
     city: "",
   });
 
-  const checkIfInputIsANumber = (value) => {
-    const updatedValue = parseFloat(value);
+  // const checkIfInputIsANumber = (value) => {
+  //   const updatedValue = parseFloat(value);
 
-    if (!isNaN(updatedValue)) {
-      // log(updatedValue);
-      // log("is a number");
+  //   if (!isNaN(updatedValue)) {
+  //     // log(updatedValue);
+  //     // log("is a number");
 
-      setIsInputANumber(true);
-    } else {
-      // log(updatedValue);
-      // log("is not a number");
+  //     setIsInputANumber(true);
+  //   } else {
+  //     // log(updatedValue);
+  //     // log("is not a number");
 
-      setIsInputANumber(false);
-    }
-  };
+  //     setIsInputANumber(false);
+  //   }
+  // };
 
   const handleChange = (e) => {
     const { value } = e.target;
@@ -71,16 +71,13 @@ const Input = () => {
 
     // checkIfInputIsANumber(value);
 
-    if(checkIfValidZipCode(value)){
+    if (checkIfValidZipCode(value)) {
       // setIsInputANumber(true);
-      setIsValidZip(true)
-    }else{
+      setIsValidZip(true);
+    } else {
       // setIsInputANumber(false);
-      setIsValidZip(false)
+      setIsValidZip(false);
     }
-
-
-
   };
 
   const handleSubmit = (e) => {
@@ -102,6 +99,8 @@ const Input = () => {
   // };
 
   const setCalculatedData = (res) => {
+    log(res);
+
     setShowCalculatedDataCol(true);
     const data = res.data.list;
     const beginningDate = res.data.list[0].dt_txt;
@@ -127,51 +126,21 @@ const Input = () => {
 
     setInputValue("");
     setIsValidZip(false);
-
-  }
+  };
 
   const getAllLafayetteData = async () => {
-    
     let res;
     try {
       res = await API.getAllLafayetteData();
     } catch (err) {
-      log(err);
+      throw err;
     }
 
     setCalculatedData(res);
-
-    // const data = res.data.list;
-    // const beginningDate = res.data.list[0].dt_txt;
-    // const endingDate = res.data.list[res.data.list.length - 1].dt_txt;
-
-    // let temperatures = [];
-
-    // for (let i = 0; i < data.length; i++) {
-    //   const curretTemp = data[i].main.temp;
-    //   temperatures.push(curretTemp);
-    // }
-
-    // setStats({
-    //   ...stats,
-    //   beginningDate: beginningDate,
-    //   endingDate: endingDate,
-    //   mean: mean(temperatures),
-    //   median: median(temperatures),
-    //   mode: mode(temperatures),
-    //   orderedTemperatures: orderedTemperatures(temperatures),
-    //   city: res.data.city.name,
-    // });
-
-  };
-
-  const checkIfValidZipCode = (zip) => {
-    const isValidZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zip);
-    // console.log(isValidZip);
-    return isValidZip;
   };
 
   const getDataByZipCode = async (zip) => {
+    log(`zip: ${zip}`)
     let res;
     try {
       res = await API.getDataByZipCode(zip);
@@ -180,15 +149,21 @@ const Input = () => {
     }
 
     setCalculatedData(res);
-
-    // log(`city: ${res.data.city.name}`);
-    // log(res);
-
-
-
   };
 
-  useEffect(() => {}, [numbers, inputValue, stats]);
+  const checkIfValidZipCode = (zip) => {
+    const isValidZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zip);
+    // console.log(isValidZip);
+    return isValidZip;
+  };
+
+  const componentIsMounted = useRef(true);
+
+  useEffect(() => {
+    return () => {
+      componentIsMounted.current = false;
+    };
+  }, [inputValue, stats]);
 
   return (
     <div>
@@ -237,7 +212,6 @@ const Input = () => {
               onClick={() => {
                 getAllLafayetteData();
               }}
-              // disabled={!(numbers.length > 0)}
             >
               {" "}
               Get Median, Mean, and Mode for Lafayette
