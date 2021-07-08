@@ -5,7 +5,7 @@ const API_METHODS = {
   getLafayetteData: (req, res) => {
     const URL = `http://api.openweathermap.org/data/2.5/forecast?lat=30.2240897&lon=-92.01984270000003&cnt=25&units=imperial&appid=${APP_ID}`;
 
-    fetch(URL)
+    fetch(URL, {method: 'GET'})
       .then((response) => response.json())
       .then((data) => res.json(data));
   },
@@ -15,7 +15,7 @@ const API_METHODS = {
 
     const URL = `http://api.openweathermap.org/data/2.5/forecast?zip=${zip},us&cnt=25&units=imperial&appid=${APP_ID}`;
 
-    fetch(URL)
+    fetch(URL, {method: 'GET'})
       .then((response) => response.json())
       .then((data) => res.json(data));
   }
