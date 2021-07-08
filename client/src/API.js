@@ -1,5 +1,4 @@
 import axios from "axios";
-// import dotenv from "dotenv";
 
 const production = "https://scphealthassessment-mg.herokuapp.com";
 const development = "http://localhost";
