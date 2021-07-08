@@ -11,9 +11,8 @@ const API_METHODS = {
   },
 
   getDataByZip: (req, res) => {
-    const zip = req.params.zip
-
-    const URL = `http://api.openweathermap.org/data/2.5/forecast?zip=${zip},us&cnt=25&units=imperial&appid=${APP_ID}`;
+    const ZIP = req.params.zip
+    const URL = `http://api.openweathermap.org/data/2.5/forecast?zip=${ZIP},us&cnt=25&units=imperial&appid=${APP_ID}`;
 
     fetch(URL, {method: 'GET'})
       .then((response) => response.json())

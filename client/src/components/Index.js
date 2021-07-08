@@ -1,8 +1,5 @@
-const { log } = console;
 const statisticMethods = {
   mean: (numbers) => {
-    // console.log("MEAN");
-
     let addedNumbers = 0;
 
     for (let i = 0; i < numbers.length; i++) {
@@ -14,7 +11,6 @@ const statisticMethods = {
     return mean;
   },
   mode: (numbers) => {
-    // console.log("MODE");
     const obj = {};
 
     for (let i = 0; i < numbers.length; i++) {
@@ -25,18 +21,15 @@ const statisticMethods = {
         obj[currentNum] += 1;
       }
     }
-    // log(obj);
 
     // get key with the highest value
     let allModes = [];
     let highestValue = 0;
-    // let highestValueKey = -Infinity;
 
     for (const key in obj) {
       const value = obj[key];
       if (value > highestValue) {
         highestValue = value;
-        // highestValueKey = key;
       }
     }
 
@@ -56,12 +49,8 @@ const statisticMethods = {
     return allModes;
   },
   median: (numbers) => {
-    // log("MEDIAN");
-    //  log(numbers);
-
     // order array
     const orderedArr = numbers.sort((a, b) => a - b);
-    // log(orderedArr);
 
     let medianNum = 0;
 
@@ -84,14 +73,12 @@ const statisticMethods = {
 
     return medianNum;
   },
-
   orderedTemperatures: (numbers) => {
     const orderedArr = numbers.sort((a, b) => a - b);
 
     for (let i = 0; i < orderedArr.length; i++) {
       orderedArr[i] = orderedArr[i] + "\u00b0F";
     }
-
 
     return orderedArr;
   },

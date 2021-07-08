@@ -1,10 +1,7 @@
-import React, { useState, useEffect, Fragment, useRef } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { Button, Container, Row, Col } from "react-bootstrap";
-import API from "../API";
 import { mean, median, mode, orderedTemperatures } from "./Index.js";
-
-import "./Input.css";
-const { log } = console;
+import API from "../API";
 
 const dataComponent = (
   title,
@@ -34,8 +31,6 @@ const dataComponent = (
 };
 
 const Input = () => {
-  // const [numbers, setNumbers] = useState([]);
-  // const [isInputANumber, setIsInputANumber] = useState(false);
   const [isValidZip, setIsValidZip] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [showCalculatedDataCol, setShowCalculatedDataCol] = useState(false);
@@ -49,58 +44,23 @@ const Input = () => {
     city: "",
   });
 
-  // const checkIfInputIsANumber = (value) => {
-  //   const updatedValue = parseFloat(value);
-
-  //   if (!isNaN(updatedValue)) {
-  //     // log(updatedValue);
-  //     // log("is a number");
-
-  //     setIsInputANumber(true);
-  //   } else {
-  //     // log(updatedValue);
-  //     // log("is not a number");
-
-  //     setIsInputANumber(false);
-  //   }
-  // };
-
   const handleChange = (e) => {
     const { value } = e.target;
     setInputValue(value);
 
-    // checkIfInputIsANumber(value);
-
     if (checkIfValidZipCode(value)) {
-      // setIsInputANumber(true);
       setIsValidZip(true);
     } else {
-      // setIsInputANumber(false);
       setIsValidZip(false);
     }
   };
 
   const handleSubmit = (e) => {
-    // if (isInputANumber) {
-    //   setNumbers([parseFloat(inputValue), ...numbers]);
-    // }
-
-    // checkIfValidZipCode(inputValue);
-
     setShowCalculatedDataCol(true);
     getDataByZipCode(inputValue);
   };
 
-  // const getMedianMeanMode = () => {
-  //   log(`MEAN: ${mean(numbers)}`);
-  //   log("MODE:", mode(numbers));
-  //   log("MEDIAN:", median(numbers));
-  //   log(`-------------------------------------------------------`);
-  // };
-
   const setCalculatedData = (res) => {
-    log(res);
-
     setShowCalculatedDataCol(true);
     const data = res.data.list;
     const beginningDate = res.data.list[0].dt_txt;
@@ -152,17 +112,10 @@ const Input = () => {
 
   const checkIfValidZipCode = (zip) => {
     const isValidZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zip);
-    // console.log(isValidZip);
     return isValidZip;
   };
 
-  const componentIsMounted = useRef(true);
-
-  useEffect(() => {
-    return () => {
-      componentIsMounted.current = false;
-    };
-  }, [inputValue, stats]);
+  useEffect(() => {}, []);
 
   return (
     <div>
@@ -193,18 +146,6 @@ const Input = () => {
 
         <Row>
           <Col lg={showCalculatedDataCol ? 6 : 12}>
-            {/* <Button
-              variant="primary"
-              size="md"
-              onClick={() => {
-                getMedianMeanMode();
-              }}
-              disabled={!(numbers.length > 0)}
-            >
-              {" "}
-              Get Median, Mean, and Mode
-            </Button> */}
-
             <Button
               variant="dark"
               size="lg"
@@ -222,18 +163,6 @@ const Input = () => {
           )}
         </Row>
       </Container>
-
-      {/* {numbers.length > 0 && (
-        <div className="numbers-list my-5">
-          {numbers.map((num, idx) => {
-            return (
-              <span className="mx-1 my-1" key={idx}>
-                {num}
-              </span>
-            );
-          })}
-        </div>
-      )} */}
     </div>
   );
 };

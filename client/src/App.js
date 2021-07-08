@@ -2,7 +2,6 @@ import { Container, Jumbotron } from "react-bootstrap";
 import Input from "./components/Input";
 
 import "./App.css";
-
 const App = () => {
   const Header = (
     <Jumbotron fluid>
