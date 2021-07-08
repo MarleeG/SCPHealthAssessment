@@ -1,8 +1,11 @@
-# SCPHealthAssessment
+# SCPHealthAssessment - Weather Statistics
 
-This app checks if the string inputted is a palindrome. 
+This app provides the mean, median, and mode of a US city's 3-day forecast.
 
-Palindrome - a word, phrase, or sequence that reads the same backward as forward, e.g., madam or nurses run. 
+## Endpoints
+
+http://{base_url}/api - Provides Lafayette's forecast for 5-day in 3-hour increments.
+http://{base_url}/api/{us_zip_code} - Provides specified US zip code's 5-day forecast in 3-hour increments.
 
 ## Built With
 * [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
@@ -14,4 +17,4 @@ Palindrome - a word, phrase, or sequence that reads the same backward as forward
 * [Bootstrap](https://getbootstrap.com/)
 
 ## Deployed App
-* [SCPHealthAssessment](https://scphealthassessment-mg.herokuapp.com) - App
+* [Weather Statistics](https://scphealthassessment-mg.herokuapp.com) - App

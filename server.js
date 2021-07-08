@@ -6,7 +6,6 @@ const PORT = process.env.PORT || 5000;
 require('dotenv').config();
 const apiRoutes = require("./routes/api");
 
-// console.log(process.env.BAS)
 
 app.use(express.json());
 app.use(cors())
@@ -31,5 +30,4 @@ app.listen(PORT, (err) => {
   }
 
   console.log(`🌎 ==> API server now on port ${PORT}!`);
-  
 });
